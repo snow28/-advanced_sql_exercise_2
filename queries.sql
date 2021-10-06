@@ -110,12 +110,12 @@ HAVING AVG(ex.mark) > (SELECT AVG(ex.mark) FROM "examResults" as ex)
 SELECT s.*
 FROM "students" as s
 WHERE (
-SELECT ex.mark
-FROM "examResults" as ex
-WHERE ex.student_id = s.id
-GROUP BY ex.created_at,ex.mark
-ORDER BY ex.created_at DESC LIMIT 1
-) > (SELECT AVG(ex.mark) FROM "examResults" as ex)
+    SELECT ex.mark
+    FROM "examResults" as ex
+    WHERE ex.student_id = s.id
+    GROUP BY ex.created_at,ex.mark
+    ORDER BY ex.created_at DESC LIMIT 1
+    ) > (SELECT AVG(ex.mark) FROM "examResults" as ex)
 
 --12. Select the biggest mark for each student and add text description for the mark (use COALESCE and WHEN operators) – 0.3 points
 -- In case if the student has not passed any exam ‘not passed' should be returned.
@@ -124,14 +124,14 @@ ORDER BY ex.created_at DESC LIMIT 1
 -- If the student mark is 7,8 – it should be returned as ‘GOOD’
 -- If the student mark is 9,10 – it should be returned as ‘EXCELLENT’
 SELECT s.id,
-CASE
-WHEN MAX(ex.mark) = 5 THEN 'EXCELLENT'
-WHEN MAX(ex.mark) = 4 THEN 'GOOD'
-WHEN MAX(ex.mark) = 3 THEN 'AVERAGE'
-WHEN MAX(ex.mark) = 2 THEN 'BAD'
-WHEN MAX(ex.mark) = 1 THEN 'BAD'
-ELSE 'not passed'
-END AS Mark_Level
+    CASE
+        WHEN MAX(ex.mark) = 5 THEN 'EXCELLENT'
+        WHEN MAX(ex.mark) = 4 THEN 'GOOD'
+        WHEN MAX(ex.mark) = 3 THEN 'AVERAGE'
+        WHEN MAX(ex.mark) = 2 THEN 'BAD'
+        WHEN MAX(ex.mark) = 1 THEN 'BAD'
+        ELSE 'not passed'
+    END AS Mark_Level
 FROM "students" as s
 	INNER JOIN "examResults" as ex
 	ON ex.student_id=s.id
