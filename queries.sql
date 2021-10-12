@@ -26,7 +26,21 @@ ORDER BY COUNT(s) DESC
 
 
 --4. Select the number of students with the same exam marks for each subject. – 0.2 points
-
+SELECT count(sMain)
+FROM "students" as sMain
+	INNER JOIN "examResults" as ex
+	ON ex.student_id=sMain.id
+	INNER JOIN "subjects" as sub
+	ON sub.id=ex.subject_id
+WHERE (
+	SELECT COUNT(DISTINCT(ex.mark))
+	FROM "students" as s
+		INNER JOIN "examResults" as ex
+		ON ex.student_id=s.id
+		INNER JOIN "subjects" as sub
+		ON sub.id=ex.subject_id
+	WHERE ex.student_id=sMain.id
+)=1
 
 
 --5. Select students who passed at least two exams for different subjects. – 0.3 points
